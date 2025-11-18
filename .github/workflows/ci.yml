@@ -1,0 +1,27 @@
+name: Test
+
+on: [push]
+
+defaults:
+  run:
+    shell: bash
+jobs:
+  macos:
+    name: MacOS
+    runs-on: macos-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+
+      - name: Download
+        run: |
+          curl -sLO https://github.com/gautierbureau/dynawo/releases/download/nightly/Dynawo_macos_v1.8.0.zip
+          unzip -q Dynawo_macos_v1.8.0.zip
+
+      - name: Run
+        run: |
+          ./dynawo/dynawo.sh jobs dynawo/examples/DynaWaltz/IEEE14/IEEE14_CascadingLineTrippings/IEEE14.jobs
+
+      - name: Run
+        run: |
+          otool -l dynawo/ddb/LoadAlphaBeta.dylib | grep -A2 LC_LOAD_DYLIB
