@@ -17,6 +17,7 @@ jobs:
         run: |
           curl -sLO https://github.com/gautierbureau/dynawo/releases/download/nightly/Dynawo_macos_v1.8.0.zip
           unzip -q Dynawo_macos_v1.8.0.zip
+          rm -rf dynawo/OpenModelica
 
       - name: Run
         run: |
@@ -25,3 +26,9 @@ jobs:
       - name: Run
         run: |
           otool -l dynawo/ddb/LoadAlphaBeta.dylib | grep -A2 LC_LOAD_DYLIB
+          echo
+          echo
+          otool -l dynawo/bin/dynawo | grep -A2 LC_LOAD_DYLIB
+          echo
+          echo
+          for file in `ls dynawo/lib/*.dylib`; do echo ${file} && otool -l ${file} | grep -A2 LC_LOAD_DYLIB && echo && echo; done
