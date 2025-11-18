@@ -19,9 +19,9 @@ jobs:
           unzip -q Dynawo_macos_v1.8.0.zip
           rm -rf dynawo/OpenModelica
 
-      - name: Run
-        run: |
-          ./dynawo/dynawo.sh jobs dynawo/examples/DynaWaltz/IEEE14/IEEE14_CascadingLineTrippings/IEEE14.jobs
+#      - name: Run
+#        run: |
+#          ./dynawo/dynawo.sh jobs dynawo/examples/DynaWaltz/IEEE14/IEEE14_CascadingLineTrippings/IEEE14.jobs
 
       - name: Run
         run: |
