@@ -23,10 +23,6 @@ jobs:
         run: |
           ./rpath.sh dynawo
 
-      - name: Run
-        run: |
-          ./dynawo/dynawo.sh jobs dynawo/examples/DynaWaltz/IEEE14/IEEE14_CascadingLineTrippings/IEEE14.jobs
-
       - name: ls
         run: |
           ls -l dynawo/lib/
@@ -40,3 +36,7 @@ jobs:
           echo
           echo
           for file in `ls dynawo/lib/*.dylib`; do echo ${file} && otool -l ${file} | grep -A2 LC_LOAD_DYLIB && echo "" && echo "" && echo ""; done
+
+      - name: Run
+        run: |
+          ./dynawo/dynawo.sh jobs dynawo/examples/DynaWaltz/IEEE14/IEEE14_CascadingLineTrippings/IEEE14.jobs
