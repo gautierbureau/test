@@ -19,9 +19,13 @@ jobs:
           unzip -q Dynawo_macos_v1.8.0.zip
           rm -rf dynawo/OpenModelica
 
-#      - name: Run
-#        run: |
-#          ./dynawo/dynawo.sh jobs dynawo/examples/DynaWaltz/IEEE14/IEEE14_CascadingLineTrippings/IEEE14.jobs
+      - name: Run
+        run: |
+          ./dynawo/dynawo.sh jobs dynawo/examples/DynaWaltz/IEEE14/IEEE14_CascadingLineTrippings/IEEE14.jobs
+
+      - name: ls
+        run: |
+          ls -l dynawo/lib/
 
       - name: Otool
         run: |
@@ -31,4 +35,4 @@ jobs:
           otool -l dynawo/bin/dynawo | grep -A2 LC_LOAD_DYLIB
           echo
           echo
-          for file in `ls dynawo/lib/*.dylib`; do echo ${file} && otool -l ${file} | grep -A2 LC_LOAD_DYLIB && echo && echo; done
+          for file in `ls dynawo/lib/*.dylib`; do echo ${file} && otool -l ${file} | grep -A2 LC_LOAD_DYLIB && echo "" && echo "" && echo ""; done
