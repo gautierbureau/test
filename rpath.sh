@@ -8,7 +8,9 @@ fi
 install_path="$1"
 
 for file in `find "$install_path"/lib -type f -name "lib*.dylib"`; do
+  echo $file
   for lib_path in $(otool -l $file | grep -A2 LC_LOAD_DYLIB | grep dylib | grep name | awk '{print $2}' | grep -v "@.*path" | grep -v "^/usr/lib/" | grep -v "^/usr/local/lib/" | grep -v "^/System"); do
+    echo "   $lib_path"
     install_name_tool -change $lib_path @rpath/$(echo $lib_path | awk -F'/' '{print $(NF)}') $file
   done
 done
