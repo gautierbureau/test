@@ -23,7 +23,7 @@ jobs:
 #        run: |
 #          ./dynawo/dynawo.sh jobs dynawo/examples/DynaWaltz/IEEE14/IEEE14_CascadingLineTrippings/IEEE14.jobs
 
-      - name: Run
+      - name: Otool
         run: |
           otool -l dynawo/ddb/LoadAlphaBeta.dylib | grep -A2 LC_LOAD_DYLIB
           echo
