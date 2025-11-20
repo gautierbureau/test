@@ -8,20 +8,41 @@ defaults:
 jobs:
   macos:
     name: MacOS
-    runs-on: macos-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ macos-13, macos-15 ]
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
 
-      - name: Download
-        run: |
-          curl -sLO https://github.com/gautierbureau/dynawo/releases/download/nightly/Dynawo_macos_v1.8.0.zip
-          unzip -q Dynawo_macos_v1.8.0.zip
-          rm -rf dynawo/OpenModelica
+#      - name: Download file for macOS
+#        if: matrix.os == 'macos-13'
+#        run: |
+#          curl -sLO Dynawo_macos_v1.8.0.zip https://github.com/gautierbureau/dynawo/releases/download/vTestMacos2/Dynawo_macos_v1.8.0.zip
+#
+#      - name: Download file for macOS-15
+#        if: matrix.os == 'macos-15'
+#        run: |
+#          curl -sLO Dynawo_macos_arm64_v1.8.0.zip https://github.com/gautierbureau/dynawo/releases/download/vTestMacos2/Dynawo_macos_arm64_v1.8.0.zip
 
-      - name: Change rpath
+      - name: Download file
         run: |
-          ./rpath.sh dynawo
+          suffix=""
+          if [ "${{ matrix.os }}" == "macos-15" ]; then
+            suffix="_arm64"
+          fi
+          curl -sLO Dynawo_macos${suffix}_v1.8.0.zip https://github.com/gautierbureau/dynawo/releases/download/vTestMacos2/Dynawo_macos${suffix}_v1.8.0.zip
+
+#      - name: Download
+#        run: |
+#          curl -sLO https://github.com/gautierbureau/dynawo/releases/download/nightly/Dynawo_macos_v1.8.0.zip
+#          unzip -q Dynawo_macos_v1.8.0.zip
+#          rm -rf dynawo/OpenModelica
+
+#      - name: Change rpath
+#        run: |
+#          ./rpath.sh dynawo
 
       - name: ls
         run: |
