@@ -16,23 +16,23 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v4
 
-#      - name: Download file for macOS
-#        if: matrix.os == 'macos-13'
-#        run: |
-#          curl -sLO Dynawo_macos_v1.8.0.zip https://github.com/gautierbureau/dynawo/releases/download/vTestMacos2/Dynawo_macos_v1.8.0.zip
-#
-#      - name: Download file for macOS-15
-#        if: matrix.os == 'macos-15'
-#        run: |
-#          curl -sLO Dynawo_macos_arm64_v1.8.0.zip https://github.com/gautierbureau/dynawo/releases/download/vTestMacos2/Dynawo_macos_arm64_v1.8.0.zip
-
-      - name: Download file
+      - name: Download file for macOS
+        if: matrix.os == 'macos-13'
         run: |
-          suffix=""
-          if [ "${{ matrix.os }}" == "macos-15" ]; then
-            suffix="_arm64"
-          fi
-          curl -sLO https://github.com/gautierbureau/dynawo/releases/download/vTestMacos2/Dynawo_macos${suffix}_v1.8.0.zip
+          curl -sLO https://github.com/gautierbureau/dynawo/releases/download/vTestMacos2/Dynawo_macos_v1.8.0.zip
+
+      - name: Download file for macOS-15
+        if: matrix.os == 'macos-15'
+        run: |
+          curl -sLO https://github.com/gautierbureau/dynawo/releases/download/vTestMacos2/Dynawo_macos_arm64_v1.8.0.zip
+
+#      - name: Download file
+#        run: |
+#          suffix=""
+#          if [ "${{ matrix.os }}" == "macos-15" ]; then
+#            suffix="_arm64"
+#          fi
+#          curl -sLO https://github.com/gautierbureau/dynawo/releases/download/vTestMacos2/Dynawo_macos${suffix}_v1.8.0.zip
 
 #      - name: Download
 #        run: |
