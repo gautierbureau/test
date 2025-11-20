@@ -32,7 +32,7 @@ jobs:
           if [ "${{ matrix.os }}" == "macos-15" ]; then
             suffix="_arm64"
           fi
-          curl -sLO Dynawo_macos${suffix}_v1.8.0.zip https://github.com/gautierbureau/dynawo/releases/download/vTestMacos2/Dynawo_macos${suffix}_v1.8.0.zip
+          curl -sLO https://github.com/gautierbureau/dynawo/releases/download/vTestMacos2/Dynawo_macos${suffix}_v1.8.0.zip
 
 #      - name: Download
 #        run: |
