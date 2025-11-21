@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ macos-13, macos-15 ]
+        os: [ macos-15-intel, macos-15 ]
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -26,24 +26,14 @@ jobs:
 #        run: |
 #          curl -sLO https://github.com/gautierbureau/dynawo/releases/download/vTestMacos2/Dynawo_macos_arm64_v1.8.0.zip
 
-      - name: Download file
+      - name: Download release
         run: |
           suffix=""
           if [ "${{ matrix.os }}" == "macos-15" ]; then
             suffix="_arm64"
           fi
-          curl -sLO https://github.com/gautierbureau/dynawo/releases/download/vTestMacos2/Dynawo_macos${suffix}_v1.8.0.zip
+          curl -sLO https://github.com/gautierbureau/dynawo/releases/download/vTestMacos4/Dynawo_macos${suffix}_v1.8.0.zip
           unzip -q Dynawo_macos${suffix}_v1.8.0.zip
-
-#      - name: Download
-#        run: |
-#          curl -sLO https://github.com/gautierbureau/dynawo/releases/download/nightly/Dynawo_macos_v1.8.0.zip
-#          unzip -q Dynawo_macos_v1.8.0.zip
-#          rm -rf dynawo/OpenModelica
-
-#      - name: Change rpath
-#        run: |
-#          ./rpath.sh dynawo
 
       - name: ls
         run: |
@@ -60,5 +50,36 @@ jobs:
           for file in `ls dynawo/lib/*.dylib`; do echo ${file} && otool -l ${file} | grep -A2 LC_LOAD_DYLIB && echo "" && echo "" && echo ""; done
 
       - name: Run
+        run: |
+          ./dynawo/dynawo.sh jobs dynawo/examples/DynaWaltz/IEEE14/IEEE14_CascadingLineTrippings/IEEE14.jobs
+
+      - name: Remove release
+        run: |
+          rm -rf dynawo
+
+      - name: Download nightly
+        run: |
+          suffix=""
+          if [ "${{ matrix.os }}" == "macos-15" ]; then
+            suffix="_arm64"
+          fi
+          curl -sLO https://github.com/gautierbureau/dynawo/releases/download/nightly/Dynawo_macos${suffix}_v1.8.0.zip
+          unzip -q Dynawo_macos${suffix}_v1.8.0.zip
+
+      - name: ls nightly
+        run: |
+          ls -l dynawo/lib/
+
+      - name: Otool nightly
+        run: |
+          otool -l dynawo/ddb/LoadAlphaBeta.dylib | grep -A2 LC_LOAD_DYLIB
+          echo
+          echo
+          otool -l dynawo/bin/dynawo | grep -A2 LC_LOAD_DYLIB
+          echo
+          echo
+          for file in `ls dynawo/lib/*.dylib`; do echo ${file} && otool -l ${file} | grep -A2 LC_LOAD_DYLIB && echo "" && echo "" && echo ""; done
+
+      - name: Run nightly
         run: |
           ./dynawo/dynawo.sh jobs dynawo/examples/DynaWaltz/IEEE14/IEEE14_CascadingLineTrippings/IEEE14.jobs
